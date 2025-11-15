@@ -2,112 +2,161 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
-    background-color: #f0f8ff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fce4ec; /* Light pink background */
     overflow: hidden;
+    font-family: 'Arial', sans-serif;
 }
 
-.animation-stage {
+.container {
+    text-align: center;
     position: relative;
-    width: 90vw;
-    height: 90vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
-/* --- Rabbit Styling and Animation --- */
-.rabbit-walking {
+/* --- Rabbit and Text Styling --- */
+.rabbit-container {
     position: absolute;
-    bottom: 50px; 
-    height: 150px; /* ছবির উচ্চতা অনুযায়ী পরিবর্তন করুন */
-    left: -200px; 
-    transition: transform 1s ease-out; 
+    bottom: 10%; 
+    left: -100px; /* Start off-screen to the left */
+    font-size: 5em;
+    cursor: pointer;
+    transition: transform 3s linear; 
     z-index: 10;
 }
 
-@keyframes walk-in {
-    from { left: -200px; }
-    /* আপনার ছবির প্রস্থের অর্ধেক মান দিন (যেমন 150px প্রস্থ হলে 75px) */
-    to { left: calc(50% - 75px); } 
+.rabbit-container.center {
+    left: 50%;
+    transform: translateX(-50%); 
 }
 
-.walking {
-    animation: walk-in 5s forwards; 
+.rabbit {
+    display: inline-block;
+    animation: hop 0.5s infinite alternate; /* Simple hopping effect */
 }
 
-/* --- Text/Bubble Styling --- */
-.bubble {
+@keyframes hop {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
+
+.rose {
+    font-size: 0.5em;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%) rotate(15deg);
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.rabbit-container.show-rose .rose {
+    opacity: 1;
+}
+
+.click-me {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.3em;
+    background-color: #fff3e0;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 2px solid #ff7043;
+    color: #d84315;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+/* --- Message Box Styling --- */
+.message-box {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -150px);
-    background-color: white;
-    padding: 10px 15px;
-    border-radius: 25px;
-    border: 3px solid #333;
-    font-weight: bold;
-    color: #e53935;
-    white-space: nowrap;
-    opacity: 1;
-    transition: opacity 0.3s;
+    transform: translate(-50%, -50%);
+    padding: 20px 40px;
+    background-color: #ffffff;
+    border: 5px solid #ff4081;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    font-size: 1.5em;
+    color: #4a148c;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
     z-index: 20;
-    cursor: pointer; /* ক্লিক করার জন্য সহজে বোঝার ব্যবস্থা */
+    text-align: center;
+    min-width: 300px;
 }
 
-.text-display {
-    position: absolute;
-    top: 30%;
-    font-size: 2em;
-    font-weight: 800;
-    color: #4a148c;
-    text-align: center;
-    padding: 10px;
-    min-height: 50px; 
-    transition: opacity 0.5s ease;
-    opacity: 0;
-    z-index: 15;
+.message-box.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* --- Buttons Styling --- */
-.decision-buttons {
-    position: absolute;
-    bottom: 100px;
-    width: 80%;
+.action-buttons {
     display: flex;
-    justify-content: space-around;
+    gap: 30px;
+    margin-top: 20px;
+    justify-content: center;
     opacity: 0;
-    transition: opacity 0.5s ease;
-    z-index: 15;
+    transition: opacity 1s;
 }
 
-.decision-buttons button {
-    padding: 15px 30px;
-    font-size: 1.2em;
-    font-weight: bold;
+.action-buttons.show {
+    opacity: 1;
+}
+
+.btn {
+    padding: 10px 20px;
     border: none;
-    border-radius: 30px;
+    border-radius: 25px;
+    font-size: 1em;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#acceptBtn {
-    background-color: #4CAF50; 
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-accept {
+    background-color: #4caf50; /* Green */
     color: white;
 }
 
-#rejectBtn {
-    background-color: #f44336; 
+.btn-reject {
+    background-color: #f44336; /* Red */
     color: white;
 }
 
-/* --- Final Result Styling --- */
-.final-result {
+/* --- Final Message Styling --- */
+.final-message {
     position: absolute;
     top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 3em;
+    font-weight: bold;
+    color: #ff4081;
+    opacity: 0;
+    transition: all 1s ease-in-out;
+    z-index: 30;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.final-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 3.5em;
