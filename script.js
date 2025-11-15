@@ -69,10 +69,10 @@ window.handleResponse = function(response) {
     
     setTimeout(() => {
         if (response === 'yes') {
-            finalMessage.textContent = "CONGRATULATIONS! ❤️";
+            finalMessage.textContent = "CONGRATULATIONS!Now you are mine ☺️❤️";
             finalMessage.style.color = '#ff4081';
         } else {
-            finalMessage.textContent = "Thanks 💔";
+            finalMessage.textContent = "Thanks!No problem,I appreciate your decision 💔";
             finalMessage.style.color = '#757575';
         }
         
