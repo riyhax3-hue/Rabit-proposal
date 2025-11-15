@@ -23,7 +23,7 @@ body {
 .rabbit-walking {
     position: absolute;
     bottom: 50px; 
-    height: 150px; /* Adjust height based on your image size */
+    height: 150px; /* ছবির উচ্চতা অনুযায়ী পরিবর্তন করুন */
     left: -200px; 
     transition: transform 1s ease-out; 
     z-index: 10;
@@ -31,12 +31,12 @@ body {
 
 @keyframes walk-in {
     from { left: -200px; }
-    /* Adjust 75px if your rabbit image width is not 150px (75 = half of 150) */
+    /* আপনার ছবির প্রস্থের অর্ধেক মান দিন (যেমন 150px প্রস্থ হলে 75px) */
     to { left: calc(50% - 75px); } 
 }
 
 .walking {
-    animation: walk-in 5s forwards; /* 5 seconds walk-in */
+    animation: walk-in 5s forwards; 
 }
 
 /* --- Text/Bubble Styling --- */
@@ -44,7 +44,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -150px); /* Position above the rabbit's head */
+    transform: translate(-50%, -150px);
     background-color: white;
     padding: 10px 15px;
     border-radius: 25px;
@@ -55,6 +55,7 @@ body {
     opacity: 1;
     transition: opacity 0.3s;
     z-index: 20;
+    cursor: pointer; /* ক্লিক করার জন্য সহজে বোঝার ব্যবস্থা */
 }
 
 .text-display {
@@ -94,12 +95,12 @@ body {
 }
 
 #acceptBtn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50; 
     color: white;
 }
 
 #rejectBtn {
-    background-color: #f44336; /* Red */
+    background-color: #f44336; 
     color: white;
 }
 
@@ -108,6 +109,29 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3.5em;
+    font-weight: 900;
+    text-align: center;
+    opacity: 0;
+    z-index: 30;
+}
+
+/* --- Utility Classes --- */
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.fade-in {
+    opacity: 1 !important;
+    transition: opacity 1s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0 !important;
+    transition: opacity 1s ease-in-out;
+}    left: 50%;
     transform: translate(-50%, -50%);
     font-size: 3.5em;
     font-weight: 900;
