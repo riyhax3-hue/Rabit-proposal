@@ -1,104 +1,84 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const rabbit = document.getElementById('rabbit');
-    const clickMeBubble = document.getElementById('clickMeBubble');
-    const proposalText = document.getElementById('proposalText');
-    const decisionButtons = document.getElementById('decisionButtons');
-    const finalResult = document.getElementById('finalResult');
-    const acceptBtn = document.getElementById('acceptBtn');
-    const rejectBtn = document.getElementById('rejectBtn');
+const rabbitContainer = document.getElementById('rabbitContainer');
+const clickMeText = document.getElementById('clickMeText');
+const messageBox = document.getElementById('messageBox');
+const messageText = document.getElementById('messageText');
+const actionButtons = document.getElementById('actionButtons');
+const finalMessage = document.getElementById('finalMessage');
+const messages = [
+    "Do you know?",
+    "Who is the most beautiful person to me?",
+    "It's You!",
+    "And I love you."
+];
+const displayDuration = 3000; // 3 seconds in milliseconds
 
-    // Text sequence
-    const sequence = [
-        "Do you know?",
-        "Who is the most beautiful person to me?",
-        "It's You!",
-        "And I love you."
-    ];
-
-    let sequenceIndex = 0;
-    const displayDuration = 3000; // 3 seconds display time for each text
-
-    // --- Step 1: Rabbit Walk-in (5 seconds) ---
-    rabbit.classList.add('walking');
-
+// Step 1: Rabbit walks onto the screen
+function startWalkAnimation() {
     setTimeout(() => {
-        // হাঁটা শেষ হওয়ার পর:
-        rabbit.classList.remove('walking'); // খরগোশকে স্থির রাখবে
+        // খরগোশকে স্ক্রিনের মাঝখানে নিয়ে আসার জন্য ট্রানজিশন সেট করা
+        rabbitContainer.style.transition = 'left 5s linear, transform 5s linear'; 
+        rabbitContainer.style.left = '50%';
+        rabbitContainer.style.transform = 'translateX(-50%)';
         
-        clickMeBubble.classList.remove('hidden'); // "Click Me" bubble দেখাবে
-        
-        // Bubble-এর ওপর ক্লিক ইভেন্ট যুক্ত করা হলো
-        clickMeBubble.addEventListener('click', startProposalSequence, { once: true });
-        
-    }, 5000); 
+        // 5 সেকেন্ড পর হাঁটা শেষ হলে 
+        setTimeout(() => {
+            rabbitContainer.classList.remove('center');
+            rabbitContainer.style.transition = ''; // Reset transition for click effect
+            rabbitContainer.classList.add('show-rose'); // Show the rose
+            clickMeText.style.opacity = '1'; // Show "Click Me!"
+            rabbitContainer.onclick = startMessageSequence; // Enable click
+        }, 5000); 
+    }, 100);
+}
 
-    // --- Step 2 & 3: Proposal Sequence and Timed Display ---
-    function startProposalSequence() {
-        // ক্লিক করার পর Bubble হাইড হবে
-        clickMeBubble.classList.add('hidden'); 
-        
-        displayNextText();
-    }
-
-    function displayNextText() {
-        if (sequenceIndex < sequence.length) {
-            // Show the text
-            proposalText.textContent = sequence[sequenceIndex];
-            proposalText.classList.remove('fade-out');
-            proposalText.classList.add('fade-in');
-
-            setTimeout(() => {
-                // Hide the text after 3 seconds
-                proposalText.classList.remove('fade-in');
-                proposalText.classList.add('fade-out');
-                
-                sequenceIndex++;
-
-                // Wait 1 second for the fade-out to complete before showing the next text
-                setTimeout(() => {
-                    displayNextText();
-                }, 1000); 
-                
-            }, displayDuration); 
+// Step 2: Start the message sequence
+function startMessageSequence() {
+    rabbitContainer.onclick = null; // Disable further clicks
+    clickMeText.style.opacity = '0'; // Hide "Click Me!"
+    rabbitContainer.querySelector('.rabbit').style.animation = 'none'; // Stop hopping
+    let messageIndex = 0;
+    
+    function showNextMessage() {
+        if (messageIndex < messages.length) {
+            messageText.textContent = messages[messageIndex];
+            messageBox.classList.add('show');
             
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageIndex++;
+                
+                setTimeout(showNextMessage, 500); // Delay between hiding and showing next message
+            }, displayDuration);
         } else {
-            // Sequence finished, show buttons
-            showDecisionButtons();
+            // Step 3: Show the final buttons
+            setTimeout(() => {
+                messageText.textContent = "Will you be my Valentine?";
+                messageBox.classList.add('show');
+                actionButtons.classList.add('show');
+            }, 500);
         }
     }
+    
+    showNextMessage();
+}
 
-    // --- Step 4: Show Buttons ---
-    function showDecisionButtons() {
-        proposalText.classList.add('hidden');
-        decisionButtons.classList.remove('hidden');
-        decisionButtons.classList.add('fade-in');
-    }
-
-    // --- Step 5: Handle Button Clicks and Final Result ---
-    acceptBtn.addEventListener('click', () => {
-        handleFinalResult('CONGRATULATIONS! 🎉', '#4CAF50'); 
-    });
-
-    rejectBtn.addEventListener('click', () => {
-        handleFinalResult('Thanks! 💔', '#f44336'); 
-    });
-
-    function handleFinalResult(message, color) {
-        // Hide buttons
-        decisionButtons.classList.add('hidden');
+// Step 4: Handle Accept/Reject (Global function for buttons)
+window.handleResponse = function(response) {
+    messageBox.classList.remove('show');
+    actionButtons.classList.remove('show');
+    
+    setTimeout(() => {
+        if (response === 'yes') {
+            finalMessage.textContent = "CONGRATULATIONS! ❤️";
+            finalMessage.style.color = '#ff4081';
+        } else {
+            finalMessage.textContent = "Thanks 💔";
+            finalMessage.style.color = '#757575';
+        }
         
-        // Set and show final text with effect
-        finalResult.textContent = message;
-        finalResult.style.color = color;
-        
-        finalResult.style.transform = 'translate(-50%, -50%) scale(0.1)';
-        finalResult.classList.remove('hidden');
+        finalMessage.classList.add('show');
+    }, 500);
+}
 
-        setTimeout(() => {
-             // Springy effect for congrats
-             finalResult.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)'; 
-             finalResult.style.transform = 'translate(-50%, -50%) scale(1)';
-             finalResult.classList.add('fade-in');
-        }, 50);
-    }
-});
+// Initialize the animation when the page loads
+window.onload = startWalkAnimation;
