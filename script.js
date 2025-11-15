@@ -22,17 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
     rabbit.classList.add('walking');
 
     setTimeout(() => {
-        // Stop animation and show bubble after 5 seconds
-        rabbit.classList.remove('walking');
-        clickMeBubble.classList.remove('hidden');
-        rabbit.style.cursor = 'pointer';
-        rabbit.addEventListener('click', startProposalSequence, { once: true });
+        // হাঁটা শেষ হওয়ার পর:
+        rabbit.classList.remove('walking'); // খরগোশকে স্থির রাখবে
+        
+        clickMeBubble.classList.remove('hidden'); // "Click Me" bubble দেখাবে
+        
+        // Bubble-এর ওপর ক্লিক ইভেন্ট যুক্ত করা হলো
+        clickMeBubble.addEventListener('click', startProposalSequence, { once: true });
+        
     }, 5000); 
 
     // --- Step 2 & 3: Proposal Sequence and Timed Display ---
     function startProposalSequence() {
-        clickMeBubble.classList.add('hidden');
-        rabbit.style.cursor = 'default';
+        // ক্লিক করার পর Bubble হাইড হবে
+        clickMeBubble.classList.add('hidden'); 
+        
         displayNextText();
     }
 
@@ -91,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         finalResult.classList.remove('hidden');
 
         setTimeout(() => {
-             // Springy effect for congrats/simple display for thanks
+             // Springy effect for congrats
              finalResult.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)'; 
              finalResult.style.transform = 'translate(-50%, -50%) scale(1)';
              finalResult.classList.add('fade-in');
