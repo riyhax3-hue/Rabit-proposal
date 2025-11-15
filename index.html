@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rabbit Proposal</title>
-    <link rel="stylesheet" href="style.css">
+    <title>I Love You Animation Card</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
-    <div class="animation-stage">
-        
-        <img src="rabbit.png" alt="Cute Rabbit with a Black Rose" id="rabbit" class="rabbit-walking">
-        
-        <div id="clickMeBubble" class="bubble hidden">Click Me</div>
-
-        <div id="proposalText" class="text-display"></div>
-        
-        <div id="decisionButtons" class="decision-buttons hidden">
-            <button id="acceptBtn">Yes! Accept You</button>
-            <button id="rejectBtn">Sorry! 💔</button>
+    <div class="container">
+        <div class="rabbit-container" id="rabbitContainer">
+            <span class="rabbit">🐰</span>
+            <span class="rose">🌹</span>
+            <span class="click-me" id="clickMeText">Click Me!</span>
         </div>
-
-        <div id="finalResult" class="final-result hidden"></div>
+        
+        <div class="message-box" id="messageBox">
+            <p id="messageText"></p>
+            <div class="action-buttons" id="actionButtons">
+                <button class="btn btn-accept" onclick="handleResponse('yes')">Yes! Accept You</button>
+                <button class="btn btn-reject" onclick="handleResponse('sorry')">Sorry! 💔</button>
+            </div>
+        </div>
+        
+        <div class="final-message" id="finalMessage"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> 
+
 </body>
 </html>
